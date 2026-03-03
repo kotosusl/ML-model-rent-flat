@@ -1,6 +1,5 @@
 import requests
 import pandas as pd
-from pycparser.c_ast import Union
 from tqdm import tqdm
 import time
 import random
