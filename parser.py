@@ -51,7 +51,7 @@ def parse_response(offer: dict) -> tp.Dict[str, tp.Union[str, int, float]]:
 
     return {
         "id": offer.get("id"),
-        "url": offer.get("url"),
+        # "url": offer.get("url"),
         "title": offer.get("title"),
         "price": offer.get("price"),
         "latitude": coords.get("lat"),
