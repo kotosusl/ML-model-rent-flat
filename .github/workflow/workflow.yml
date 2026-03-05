@@ -1,4 +1,4 @@
-name: CS102 Workflow
+name: Project Workflow
 
 on: [pull_request]
 
