@@ -1,16 +1,17 @@
-import requests
-import pandas as pd
-from tqdm import tqdm
-import time
-import random
 import logging
+import random
+import time
 import typing as tp
 
+import pandas as pd
+import requests
+from tqdm import tqdm
+
 logging.basicConfig(
-    filename='parsing.log',
+    filename="parsing.log",
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    encoding='utf-8'
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    encoding="utf-8",
 )
 
 HEADERS = {
@@ -25,7 +26,7 @@ HEADERS = {
 API_URL = "https://www.mirkvartir.ru/listingapi/ListingPageModel/"
 
 
-def make_request(page:int) -> tp.Dict[str, tp.Union[int, str]]:
+def make_request(page: int) -> tp.Dict[str, tp.Union[int, str]]:
     """
     функция возвращает набор параметров для запроса к API
     :param page: номер страницы, которую парсим
@@ -35,7 +36,7 @@ def make_request(page:int) -> tp.Dict[str, tp.Union[int, str]]:
         "locationIds": "MK_Region|78",
         "site": 16,  # 16 - аренда, 1 - продажа
         "p": page,
-        "pricePeriod": 4  # 2 - краткосрочная аренда, 4 - долгосрочная
+        "pricePeriod": 4,  # 2 - краткосрочная аренда, 4 - долгосрочная
     }
 
 
@@ -45,9 +46,9 @@ def parse_response(offer: dict) -> tp.Dict[str, tp.Union[str, int, float]]:
     :param offer: словарь данных из ответа API
     :return: словарь необходимых данных
     """
-    loc = offer.get('locationInfo', {}) or {}
-    coords = loc.get('coordinate', {}) or {}
-    subway = loc.get('subwayInfo', {}) or {}
+    loc = offer.get("locationInfo", {}) or {}
+    coords = loc.get("coordinate", {}) or {}
+    subway = loc.get("subwayInfo", {}) or {}
 
     return {
         "id": offer.get("id"),
@@ -60,7 +61,7 @@ def parse_response(offer: dict) -> tp.Dict[str, tp.Union[str, int, float]]:
         "metro_distance": subway.get("minutesToMove"),
         "distanceType": subway.get("distanceType"),
         "update_time": offer.get("updateTime"),
-        "page_number": offer.get("_page")
+        "page_number": offer.get("_page"),
     }
 
 
@@ -80,8 +81,9 @@ def check_API(session: tp.Union[requests.Session]) -> int:
         exit()
 
 
-def collect_offers(max_pages:int=100, min_delay:int=2, max_delay:int=5)\
-        -> tp.List[tp.Dict[str, tp.Union[str, int, float]]]:
+def collect_offers(
+    max_pages: int = 100, min_delay: int = 2, max_delay: int = 5
+) -> tp.List[tp.Dict[str, tp.Union[str, int, float]]]:
     """
     функция проверяет доступность API, отправляяет POST запрос для каждого номера страницы,
     получает результат и парсит его
@@ -138,7 +140,9 @@ def collect_offers(max_pages:int=100, min_delay:int=2, max_delay:int=5)\
                 pbar.update(1)
 
                 # Логирование
-                logging.info(f"[+] Страница {page}: собрано {len(page_data)} объявлений")
+                logging.info(
+                    f"[+] Страница {page}: собрано {len(page_data)} объявлений"
+                )
 
                 # Случайная задержка
                 delay = random.uniform(min_delay, max_delay)
@@ -168,20 +172,24 @@ if __name__ == "__main__":
     MAX_DELAY = 5
     logging.info("-" * 80)
     logging.info("Начало сбора данных со случайным порядком страниц...")
-    offers_data = collect_offers(max_pages=MAX_PAGES, min_delay=MIN_DELAY, max_delay=MAX_DELAY)
+    offers_data = collect_offers(
+        max_pages=MAX_PAGES, min_delay=MIN_DELAY, max_delay=MAX_DELAY
+    )
 
     # Преобразуем массив данных в csv формат и сохраним в файле
     if offers_data:
         df = pd.DataFrame(offers_data)
 
-        if 'page_number' in df.columns:
-            df.drop('page_number', axis=1, inplace=True)
+        if "page_number" in df.columns:
+            df.drop("page_number", axis=1, inplace=True)
 
         filename = "data_for_ml.csv"
         df.to_csv(filename, index=False)
         logging.info(f"Собрано и сохранено {len(df)} объявлений в {filename}")
 
-        unique_pages = len(set([o.get('_page', 0) for o in offers_data]))
+        unique_pages = len(set([o.get("_page", 0) for o in offers_data]))
         logging.info(f"Обработано уникальных страниц: {unique_pages}")
     else:
-        logging.error("Не удалось собрать данные. Проверьте соединение и параметры запроса.")
+        logging.error(
+            "Не удалось собрать данные. Проверьте соединение и параметры запроса."
+        )

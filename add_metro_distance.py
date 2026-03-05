@@ -1,7 +1,9 @@
 import math
+
 import pandas as pd
 
-def add_metro_distance(stations_file:str, offers_file:str) -> None:
+
+def add_metro_distance(stations_file: str, offers_file: str) -> None:
     """
     функция добавляет к каждому объявлению расстояние от
     квартиры до метро в координатах
@@ -23,10 +25,10 @@ def add_metro_distance(stations_file:str, offers_file:str) -> None:
         else:
             metro_distance.append(-1)
 
-    offers['metro_distance_coords'] = metro_distance
+    offers["metro_distance_coords"] = metro_distance
     offers.to_csv(offers_file)
     return None
 
 
-if __name__ == '__main__':
-    add_metro_distance('stations.json', 'data_for_ml.csv')
+if __name__ == "__main__":
+    add_metro_distance("stations.json", "data_for_ml.csv")
