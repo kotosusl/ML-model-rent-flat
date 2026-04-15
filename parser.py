@@ -167,7 +167,7 @@ def collect_offers(
 
 
 if __name__ == "__main__":
-    MAX_PAGES = 1
+    MAX_PAGES = 400
     MIN_DELAY = 2
     MAX_DELAY = 5
     logging.info("-" * 80)
