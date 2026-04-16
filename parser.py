@@ -183,7 +183,7 @@ if __name__ == "__main__":
         if "page_number" in df.columns:
             df.drop("page_number", axis=1, inplace=True)
 
-        filename = "data_for_ml.csv"
+        filename = "csv_files/data_for_ml.csv"
         df.to_csv(filename, index=False)
         logging.info(f"Собрано и сохранено {len(df)} объявлений в {filename}")
 

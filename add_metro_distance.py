@@ -35,4 +35,4 @@ def add_metro_distance(stations_file: str, offers_file: str, output_file: str) -
 
 
 if __name__ == "__main__":
-    add_metro_distance("stations.json", "main_data_filter_metro.csv", 'main_data_filter_metro.csv')
+    add_metro_distance("stations.json", "csv_files/main_data_filter_metro.csv", 'csv_files/main_data_filter_metro.csv')

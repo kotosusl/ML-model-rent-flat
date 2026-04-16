@@ -2,7 +2,7 @@ import csv
 
 
 def test_csv_file():
-    filename = "data_for_ml.csv"
+    filename = "../csv_files/main_data10000.csv"
 
     with open(filename, 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
