@@ -167,7 +167,7 @@ def collect_offers(
 
 
 if __name__ == "__main__":
-    MAX_PAGES = 1
+    MAX_PAGES = 400
     MIN_DELAY = 2
     MAX_DELAY = 5
     logging.info("-" * 80)
@@ -183,7 +183,7 @@ if __name__ == "__main__":
         if "page_number" in df.columns:
             df.drop("page_number", axis=1, inplace=True)
 
-        filename = "data_for_ml.csv"
+        filename = "csv_files/data_for_ml.csv"
         df.to_csv(filename, index=False)
         logging.info(f"Собрано и сохранено {len(df)} объявлений в {filename}")
 
