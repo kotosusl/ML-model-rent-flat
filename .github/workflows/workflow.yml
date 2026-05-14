@@ -14,7 +14,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install black mypy pylint pygame pytelegrambotapi pandas boddle bottle pytest
+        pip install black mypy pylint pygame pytelegrambotapi pandas boddle bottle pytest sklearn
     - name: Install project dependencies
       run: |
         if [ -f ${{ github.head_ref }}/requirements.txt ];
